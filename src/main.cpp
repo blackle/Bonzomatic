@@ -113,6 +113,8 @@ int main( int argc, const char *argv[] )
       settings.sFFT.bUseRecordingDevice = options.get<jsonxx::Object>( "audio" ).get<jsonxx::Boolean>( "useInput" );
   }
 
+  settings.sRenderer.fScale = 1.0f;
+  settings.sRenderer.bLinearFilter = false;
   settings.sRenderer.bVsync = false;
 #ifdef _DEBUG
   settings.sRenderer.nWidth = 1280;
@@ -131,6 +133,10 @@ int main( int argc, const char *argv[] )
       settings.sRenderer.nHeight = options.get<jsonxx::Object>( "window" ).get<jsonxx::Number>( "height" );
     if ( options.get<jsonxx::Object>( "window" ).has<jsonxx::Boolean>( "fullscreen" ) )
       settings.sRenderer.windowMode = options.get<jsonxx::Object>( "window" ).get<jsonxx::Boolean>( "fullscreen" ) ? RENDERER_WINDOWMODE_FULLSCREEN : RENDERER_WINDOWMODE_WINDOWED;
+    if ( options.get<jsonxx::Object>( "window" ).has<jsonxx::Number>( "scale" ) )
+      settings.sRenderer.fScale = options.get<jsonxx::Object>("window").get<jsonxx::Number>("scale");
+    if ( options.get<jsonxx::Object>( "window" ).has<jsonxx::Boolean>( "linearFilter" ) )
+      settings.sRenderer.bLinearFilter = options.get<jsonxx::Object>("window").get<jsonxx::Boolean>("linearFilter");
   }
   if ( !skipSetupDialog )
   {
@@ -139,6 +145,8 @@ int main( int argc, const char *argv[] )
       return -1;
     }
   }
+  if (settings.sRenderer.fScale < 0.0f) settings.sRenderer.fScale = 0.0f;
+  if (settings.sRenderer.fScale > 1.0f) settings.sRenderer.fScale = 1.0f;
 #endif
 
   if (!Renderer::Open( &settings.sRenderer ))
@@ -489,7 +497,7 @@ int main( int argc, const char *argv[] )
     Renderer::keyEventBufferCount = 0;
 
     Renderer::SetShaderConstant( "fGlobalTime", time );
-    Renderer::SetShaderConstant( "v2Resolution", settings.sRenderer.nWidth, settings.sRenderer.nHeight );
+    Renderer::SetShaderConstant( "v2Resolution", settings.sRenderer.nWidth*settings.sRenderer.fScale, settings.sRenderer.nHeight*settings.sRenderer.fScale );
 
     float fTime = Timer::GetTime();
     Renderer::SetShaderConstant( "fFrameTime", ( fTime - fLastTimeMS ) / 1000.0f );

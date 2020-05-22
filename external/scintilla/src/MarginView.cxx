@@ -205,11 +205,11 @@ void MarginView::PaintMargin(Surface *surface, int topLine, PRectangle rc, PRect
 					// by choosing correctly aligned variant.
 
 					// Note(Bonzomatic): UGLY HACK TO REMOVE THE DARK LEFT MARGIN BETWEEN LINE NUMBERS AND CODE
-					/*
+					rcSelMargin.right = rcSelMargin.left;
 					bool invertPhase = static_cast<int>(ptOrigin.y) & 1;
 					surface->FillRectangle(rcSelMargin,
 						invertPhase ? *pixmapSelPattern : *pixmapSelPatternOffset1);
-					*/
+
 				} else {
 					ColourDesired colour;
 					switch (vs.ms[margin].style) {

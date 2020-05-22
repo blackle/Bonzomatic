@@ -69,20 +69,20 @@ int main( int argc, const char *argv[] )
 {
   Misc::PlatformStartup();
 
-  const char * configFile = "config.json";
+  const char * configFile = "/home/blackle/.bonzomatic.json";
   if ( argc > 1 )
   {
     configFile = argv[ 1 ];
     printf( "Loading config file '%s'...\n", configFile );
   }
-  else
-  {
-    char configPath[ 256 ] = { 0 };
-    if ( getcwd( configPath, 255 ) )
-    {
-      printf( "Looking for config.json in '%s'...\n", configPath );
-    }
-  }
+  // else
+  // {
+  //   char configPath[ 256 ] = { 0 };
+  //   if ( getcwd( configPath, 255 ) )
+  //   {
+  //     printf( "Looking for config.json in '%s'...\n", configPath );
+  //   }
+  // }
 
   jsonxx::Object options;
   FILE * fConf = fopen( configFile, "rb" );

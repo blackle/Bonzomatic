@@ -101,7 +101,7 @@ void ShaderEditor::Initialise()
 
   SetAStyle( STYLE_DEFAULT,     0xFFFFFFFF, BACKGROUND( 0x000000 ), nFontSize, sFontFile.c_str() );
   WndProc( SCI_STYLECLEARALL, 0, 0 );
-  SetAStyle( STYLE_LINENUMBER,  0xFFC0C0C0, BACKGROUND( 0x000000 ), nFontSize, sFontFile.c_str() );
+  SetAStyle( STYLE_LINENUMBER,  0xFFC0C0C0, theme.bUseCharBackground ? theme.charBackground : BACKGROUND(0x000000), nFontSize, sFontFile.c_str() );
   SetAStyle( STYLE_BRACELIGHT,  0xFF00FF00, BACKGROUND( 0x000000 ), nFontSize, sFontFile.c_str() );
   SetAStyle( STYLE_BRACEBAD,    0xFF0000FF, BACKGROUND( 0x000000 ), nFontSize, sFontFile.c_str() );
   SetAStyle( STYLE_INDENTGUIDE, 0xFFC0C0C0, BACKGROUND( 0x000000 ), nFontSize, sFontFile.c_str() );
